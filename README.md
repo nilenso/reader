@@ -1,22 +1,35 @@
 # reader
 
-A Clojure library designed to ... well, that part is up to you.
+Display webpages sans images
 
-## Usage
+## usage
 
-FIXME
+### setup
 
-## License
+Install [leiningen](https://leiningen.org/#install) and run server from command line:
+```
+$ lein deps
+$ lein run
+```
 
-Copyright © 2020 FIXME
+Start, stop or restart server from REPL:
+```
+(server/start-app!)
 
-This program and the accompanying materials are made available under the
-terms of the Eclipse Public License 2.0 which is available at
-http://www.eclipse.org/legal/epl-2.0.
+(server/stop-app!)
 
-This Source Code may also be made available under the following Secondary
-Licenses when the conditions for such availability set forth in the Eclipse
-Public License, v. 2.0 are satisfied: GNU General Public License as published by
-the Free Software Foundation, either version 2 of the License, or (at your
-option) any later version, with the GNU Classpath Exception which is available
-at https://www.gnu.org/software/classpath/license.html.
+(server/restart-app!)
+```
+
+### linting & formatting
+
+Install [clj-kondo](https://github.com/borkdude/clj-kondo) and run linter for source and test files:
+```
+clj-kondo --lint src/
+clj-kondo --lint test/
+```
+
+Fix formatting of source code:
+```
+lein cljfmt fix 
+```
