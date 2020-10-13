@@ -1,0 +1,26 @@
+name: Run linter and formatter
+on: push
+jobs:
+  run-linter:
+    name: Lint code base
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install clj-kondo
+        run: |
+          curl -sLO https://raw.githubusercontent.com/borkdude/clj-kondo/master/script/install-clj-kondo
+          chmod +x install-clj-kondo
+          ./install-clj-kondo
+      - name: Lint source directory
+        run: clj-kondo --lint src/
+      - name: Lint test directory
+        run: clj-kondo --lint test/
+  check-formatting:
+    name: Check code formatting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Check formatting
+        run: lein cljfmt check
