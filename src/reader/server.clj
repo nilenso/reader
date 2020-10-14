@@ -1,17 +1,17 @@
 (ns reader.server
-  (:require [org.httpkit.server :as http]
+  (:require [org.httpkit.server :as httpkit]
             [reader.config :as config]))
 
 (defonce server (atom nil))
 
 (defn handler
-  [_]
+  [request]
   {:status 200
    :body "mic check"})
 
 (defn start-app!
   []
-  (reset! server (http/run-server handler {:port (config/port)}))
+  (reset! server (httpkit/run-server handler {:port (config/port)}))
   (println "Server started on port" (config/port)))
 
 (defn stop-app!
