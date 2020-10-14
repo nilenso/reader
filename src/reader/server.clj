@@ -5,7 +5,7 @@
 (defonce server (atom nil))
 
 (defn handler
-  [request]
+  [_]
   {:status 200
    :body "mic check"})
 

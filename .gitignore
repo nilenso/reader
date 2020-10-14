@@ -12,6 +12,8 @@ pom.xml.asc
 .hg/
 .idea/
 *.iml
-.clj-kondo/
+.clj-kondo/.cache
 CHANGELOG.md
 doc/
+.DS_Store
+resources/.DS_Store
