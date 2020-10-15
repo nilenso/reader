@@ -1,17 +1,26 @@
 (ns reader.server
   (:require [org.httpkit.server :as httpkit]
-            [reader.config :as config]))
+            [reader.config :as config]
+            [ring.middleware.resource :refer [wrap-resource]]
+            [ring.middleware.content-type :refer [wrap-content-type]]
+            [ring.middleware.not-modified :refer [wrap-not-modified]]
+            [ring.middleware.params :refer [wrap-params]]
+            [ring.util.response :as response]))
 
 (defonce server (atom nil))
 
 (defn handler
-  [_]
-  {:status 200
-   :body "mic check"})
+  [{:keys [query-params]}]
+  (response/resource-response "public/webpage.html"))
+
+(def app
+  (-> handler
+      (wrap-params)
+      (wrap-resource "public")))
 
 (defn start-app!
   []
-  (reset! server (httpkit/run-server handler {:port (config/port)}))
+  (reset! server (httpkit/run-server app {:port (config/port)}))
   (println "Server started on port" (config/port)))
 
 (defn stop-app!
@@ -24,6 +33,5 @@
 (defn restart-app!
   []
   (stop-app!)
-  (start-app!)
-  (println "Server restarted on port" (config/port)))
+  (start-app!))
 
