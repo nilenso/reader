@@ -5,13 +5,20 @@
             [ring.middleware.content-type :refer [wrap-content-type]]
             [ring.middleware.not-modified :refer [wrap-not-modified]]
             [ring.middleware.params :refer [wrap-params]]
-            [ring.util.response :as response]))
+            [ring.util.response :as response]
+            [crouton.html :as html]))
 
 (defonce server (atom nil))
 
+(defn scraper-fn
+  [url]
+  ;; do stuff with webpage url
+  (html/parse url))
+
 (defn handler
   [{:keys [query-params]}]
-  (response/resource-response "public/webpage.html"))
+  ;; add validation later
+  (response/response (scraper-fn (first (vals query-params)))))
 
 (def app
   (-> handler
