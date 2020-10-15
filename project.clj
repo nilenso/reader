@@ -5,7 +5,8 @@
             :url "https://www.eclipse.org/legal/epl-2.0/"}
   :dependencies [[org.clojure/clojure "1.10.1"]
                  [ring "1.8.2"]
-                 [http-kit "2.5.0"]]
+                 [http-kit "2.5.0"]
+                 [crouton "0.1.2"]]
   :plugins [[lein-cljfmt "0.7.0"]]
   :main reader.core
   :repl-options {:init-ns reader.core})
