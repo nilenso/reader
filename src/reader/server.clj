@@ -11,8 +11,7 @@
 
 (defn handler
   [{:keys [query-params]}]
-  ;; add query params validation here later
-  (response/response (println query-params)))
+  (response/resource-response "public/webpage.html"))
 
 (def app
   (-> handler
