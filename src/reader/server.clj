@@ -1,29 +1,19 @@
 (ns reader.server
   (:require [org.httpkit.server :as httpkit]
             [reader.config :as config]
-            [ring.middleware.resource :refer [wrap-resource]]
-            [ring.middleware.content-type :refer [wrap-content-type]]
-            [ring.middleware.not-modified :refer [wrap-not-modified]]
             [ring.middleware.params :refer [wrap-params]]
-            [ring.util.response :as response]
-            [crouton.html :as html]))
+            [reader.scraper :as scraper]
+            [ring.util.response :as response]))
 
 (defonce server (atom nil))
 
-(defn scraper-fn
-  [url]
-  ;; do stuff with webpage url
-  (html/parse url))
-
 (defn handler
   [{:keys [query-params]}]
-  ;; add validation later
-  (response/response (scraper-fn (first (vals query-params)))))
+  (if-let [url (get query-params "url")]
+    (response/response (scraper/get-text url))
+    (response/bad-request "URL query missing")))
 
-(def app
-  (-> handler
-      (wrap-params)
-      (wrap-resource "public")))
+(def app (wrap-params handler))
 
 (defn start-app!
   []
