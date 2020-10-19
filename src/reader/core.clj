@@ -3,5 +3,5 @@
   (:require [reader.server :as server]))
 
 (defn -main
-  [& args]
+  [& _]
   (server/start-app!))
