@@ -6,11 +6,15 @@
   [url]
   (let [html (html/html-resource (java.net.URL. url))]
     (if (= 1 (count html)) (first html)
-                           (second html))))
+        (second html))))
 
 (defn trimmer
   [string]
-  (str/join "\n\n" (remove empty? (map str/trim (str/split-lines string)))))
+  (->> string
+       (str/split-lines)
+       (map str/trim)
+       (remove empty?)
+       (str/join "\n\n")))
 
 (defn get-text
   [url]
