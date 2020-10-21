@@ -2,7 +2,6 @@
   (:require [org.httpkit.server :as httpkit]
             [reader.config :as config]
             [ring.middleware.params :refer [wrap-params]]
-            [reader.scraper :as scraper]
             [ring.util.response :as response]))
 
 (defonce server (atom nil))
@@ -10,7 +9,7 @@
 (defn handler
   [{:keys [query-params]}]
   (if-let [url (get query-params "url")]
-    (response/response (scraper/get-text url))
+    (response/response (slurp url))
     (response/bad-request "URL query missing")))
 
 (def app (wrap-params handler))
