@@ -1,4 +1,4 @@
-name: Run linter and formatter
+name: Run all tests, linter and formatter
 
 on: push
 
