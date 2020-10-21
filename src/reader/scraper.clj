@@ -2,19 +2,17 @@
   (:require [hickory.core :as h]
             [hickory.render :as hr]))
 
-(defn format-url
-  [url])
-
-(defn get-hickory
+(defn- get-hickory
   [url]
   (-> url
       slurp
       h/parse
       h/as-hickory))
 
-(defn manipulate-hickory
-  [hickory])
+(defn- manipulate-hickory
+  [hickory]
+  hickory)
 
 (defn get-html
-  [hickory]
-  (hr/hickory-to-html hickory))
+  [url]
+  (hr/hickory-to-html (manipulate-hickory (get-hickory url))))

@@ -10,7 +10,7 @@
 (defn handler
   [{:keys [query-params]}]
   (if-let [url (get query-params "url")]
-    (response/response (scraper/get-html (scraper/get-hickory url)))
+    (response/response (scraper/get-html url))
     (response/bad-request "URL query missing")))
 
 (def app (wrap-params handler))
