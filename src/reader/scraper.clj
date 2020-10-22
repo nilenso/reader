@@ -10,17 +10,19 @@
       h/parse
       h/as-hickory))
 
-(defn- change-text
+(defn- remove-images
   [node]
   (if (and (map? node)
-           (= 1 (count (:content node)))
-           (string? (get (:content node) 0)))
-    (assoc node :content ["CHANGED!"])
+           (contains? node :tag)
+           (= (:tag node) :img))
+    (assoc-in (assoc-in node [:attrs :src] "")
+              [:attrs :alt]
+              " ")
     node))
 
 (defn- manipulate-hickory
   [hickory]
-  (w/postwalk change-text hickory))
+  (w/postwalk remove-images hickory))
 
 (defn get-html
   [url]

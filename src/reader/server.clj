@@ -7,7 +7,7 @@
 
 (defn start-app!
   []
-  (reset! server (s/run-server  h/app {:port (c/port)}))
+  (reset! server (s/run-server h/app {:port (c/port)}))
   (println "Server started on port" (c/port)))
 
 (defn stop-app!
@@ -21,4 +21,3 @@
   []
   (stop-app!)
   (start-app!))
-
