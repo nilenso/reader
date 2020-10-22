@@ -1,24 +1,14 @@
 (ns reader.server
-  (:require [org.httpkit.server :as httpkit]
-            [reader.config :as config]
-            [ring.middleware.params :refer [wrap-params]]
-            [ring.util.response :as response]
-            [reader.scraper :as scraper]))
+  (:require [org.httpkit.server :as s]
+            [reader.config :as c]
+            [reader.handlers :as h]))
 
 (defonce server (atom nil))
 
-(defn handler
-  [{:keys [query-params]}]
-  (if-let [url (get query-params "url")]
-    (response/response (scraper/get-html url))
-    (response/bad-request "URL query missing")))
-
-(def app (wrap-params handler))
-
 (defn start-app!
   []
-  (reset! server (httpkit/run-server app {:port (config/port)}))
-  (println "Server started on port" (config/port)))
+  (reset! server (s/run-server  h/app {:port (c/port)}))
+  (println "Server started on port" (c/port)))
 
 (defn stop-app!
   []
