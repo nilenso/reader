@@ -13,14 +13,10 @@
 (defn- remove-images
   [node]
   (if (and (map? node)
-           (contains? node :tag))
-    (if (= (:tag node) :img)
-      (assoc-in (assoc-in node [:attrs :src] "")
-                [:attrs :alt]
-                " ")
-      (if (= (:tag node) :svg)
-        (assoc node :content [])
-        node))
+           (contains? node :tag)
+           (or (= (:tag node) :img)
+               (= (:tag node) :svg)))
+    ""
     node))
 
 (defn- manipulate-hickory
