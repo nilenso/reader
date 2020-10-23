@@ -1,28 +1,33 @@
 (ns reader.scraper
   (:require [hickory.core :as h]
             [hickory.render :as hr]
-            [clojure.walk :as w]))
+            [clojure.walk :as w]
+            [org.httpkit.client :as c]))
 
-(defn- get-hickory
+(defn get-url
   [url]
-  (-> url
-      slurp
-      h/parse
-      h/as-hickory))
+  (:body @(c/get url)))
 
-(defn- remove-images
+(defn get-hickory
+  [html]
+  (h/as-hickory (h/parse html)))
+
+(defn remove-images
   [node]
   (if (and (map? node)
-           (contains? node :tag)
            (or (= (:tag node) :img)
                (= (:tag node) :svg)))
     ""
     node))
 
-(defn- manipulate-hickory
+(defn manipulate-hickory
   [hickory]
   (w/postwalk remove-images hickory))
 
 (defn get-html
   [url]
-  (hr/hickory-to-html (manipulate-hickory (get-hickory url))))
+  (-> url
+      get-url
+      get-hickory
+      manipulate-hickory
+      hr/hickory-to-html))
