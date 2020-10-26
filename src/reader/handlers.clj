@@ -1,12 +1,12 @@
 (ns reader.handlers
-  (:require [reader.scraper :as scraper]
+  (:require [reader.html :as html]
             [ring.util.response :as response]
             [ring.middleware.params :refer [wrap-params]]))
 
-(defn handler
+(defn fetch-page
   [{:keys [query-params]}]
   (if-let [url (get query-params "url")]
-    (response/response (scraper/get-html url))
+    (response/response (html/html-without-images (html/fetch-html url)))
     (response/bad-request "URL query missing")))
 
-(def app (wrap-params handler))
+(def handler (wrap-params #'fetch-page))
