@@ -1,18 +1,18 @@
-(ns reader.scraper
+(ns reader.html
   (:require [hickory.core :as h]
             [hickory.render :as hr]
             [clojure.walk :as w]
             [org.httpkit.client :as c]))
 
-(defn get-url
+(defn fetch-html
   [url]
   (:body @(c/get url)))
 
-(defn get-hickory
+(defn html-to-hickory
   [html]
   (h/as-hickory (h/parse html)))
 
-(defn remove-images
+(defn remove-node-images
   [node]
   (if (and (map? node)
            (or (= (:tag node) :img)
@@ -20,14 +20,13 @@
     ""
     node))
 
-(defn manipulate-hickory
+(defn remove-images
   [hickory]
-  (w/postwalk remove-images hickory))
+  (w/postwalk remove-node-images hickory))
 
-(defn get-html
-  [url]
-  (-> url
-      get-url
-      get-hickory
-      manipulate-hickory
+(defn html-without-images
+  [html]
+  (-> html
+      html-to-hickory
+      remove-images
       hr/hickory-to-html))
