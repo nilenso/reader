@@ -5,7 +5,7 @@
 
 (deftest handler-test
   (testing "Given url query parameter, return status 200 response"
-    (with-redefs [html/html-without-images (constantly "hello world")]
+    (with-redefs [html/new-html (constantly "hello world")]
       (let [request {:query-params {"url" "foo.bar"}}
             response (h/fetch-page request)]
         (is (= 200 (:status response))))))

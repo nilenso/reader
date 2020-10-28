@@ -2,10 +2,10 @@
   (:require [clojure.test :refer :all]
             [reader.html :as h]))
 
-(deftest remove-images-test
+(deftest new-html-test
   (testing "Given html with no img/svg tags, return unchanged html"
     (let [html "<html><head></head><body></body></html>"]
-      (is (= html (h/html-without-images html)))))
+      (is (= html (h/new-html html h/remove-node-images)))))
   (testing "Given html with img/svg tags, return html without them"
     (let [html1 "<html><head></head><body><img src='' alt=''></body></html>"
           html2 "<html><head></head><body><svg width='' height=''></svg></body></html>"
