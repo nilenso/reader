@@ -20,13 +20,38 @@
     ""
     node))
 
-(defn- remove-images
-  [hickory]
-  (w/postwalk remove-node-images hickory))
+(defn remove-node-css
+  [node]
+  (if (and (map? node)
+           (or (contains? node :style)
+               (= (:tag node) :style)
+               (= (:tag node) :link)))
+    ""
+    node))
 
-(defn html-without-images
-  [html]
+(defn change-font
+  [node]
+  (if (and (map? node)
+           (= (:tag node) :head))
+    (assoc node :content
+           (conj (:content node) {:type    :element
+                                  :attrs   nil
+                                  :tag     :style
+                                  :content ["body {background-color: #fff;
+                                                        color: #000;
+                                                        font-size: 24;
+                                                        font-family: Arial;}"]}))
+    node))
+
+(defn change-hickory
+  ([hickory]
+   (change-hickory hickory [change-font remove-node-css remove-node-images]))
+  ([hickory & [fns]]
+   (w/postwalk (reduce comp fns) hickory)))
+
+(defn new-html
+  [html & fns]
   (-> html
       html-to-hickory
-      remove-images
+      (change-hickory fns)
       hr/hickory-to-html))
