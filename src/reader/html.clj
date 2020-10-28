@@ -8,11 +8,11 @@
   [url]
   (:body @(c/get url)))
 
-(defn html-to-hickory
+(defn- html-to-hickory
   [html]
   (h/as-hickory (h/parse html)))
 
-(defn remove-node-images
+(defn- remove-node-images
   [node]
   (if (and (map? node)
            (or (= (:tag node) :img)
@@ -20,7 +20,7 @@
     ""
     node))
 
-(defn remove-images
+(defn- remove-images
   [hickory]
   (w/postwalk remove-node-images hickory))
 

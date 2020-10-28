@@ -1,4 +1,4 @@
-(ns reader.handlers_test
+(ns reader.handlers-test
   (:require [clojure.test :refer :all]
             [reader.handlers :as h]
             [reader.html :as html]))
