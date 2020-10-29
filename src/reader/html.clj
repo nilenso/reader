@@ -12,7 +12,7 @@
   [html]
   (h/as-hickory (h/parse html)))
 
-(defn- remove-node-images
+(defn remove-node-images
   [node]
   (if (and (map? node)
            (or (= (:tag node) :img)
@@ -25,35 +25,34 @@
   (if (and (map? node)
            (or (contains? node :style)
                (= (:tag node) :style)
-               (= (:tag node) :link)))
+               (and (= (:tag node) :link)
+                    (= (get-in node [:attrs :rel]) "stylesheet"))))
     ""
     node))
 
-(defn change-font
+(defn- change-font
   [node]
   (if (and (map? node)
            (= (:tag node) :head))
-    (assoc node :content
-           (conj (:content node)
-                 {:type    :element
-                  :attrs   nil
-                  :tag     :style
-                  :content [(str "body {background-color: #fff;"
-                                 "color: #000;"
-                                 "text-align: center;"
-                                 "font-size: 24;"
-                                 "font-family: Arial;}")]}))
+    (update node :content conj {:type    :element
+                                :attrs   nil
+                                :tag     :style
+                                :content [(str "body {background-color: #fff;"
+                                               "color: #000;"
+                                               "text-align: center;"
+                                               "font-size: 24;"
+                                               "font-family: Arial;}")]})
     node))
 
-(defn change-hickory
-  [hickory fns]
-  (if fns
-    (w/postwalk (reduce comp fns) hickory)
+(defn- change-hickory
+  [hickory node-fns]
+  (if node-fns
+    (w/postwalk (reduce comp node-fns) hickory)
     (change-hickory hickory [change-font remove-node-css remove-node-images])))
 
 (defn new-html
-  [html & fns]
+  [html & node-fns]
   (-> html
       html-to-hickory
-      (change-hickory fns)
+      (change-hickory node-fns)
       hr/hickory-to-html))
