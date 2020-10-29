@@ -9,4 +9,4 @@
     (response/response (html/new-html (html/fetch-html url)))
     (response/bad-request "URL query missing")))
 
-(def handler (wrap-params #'fetch-page))
+(def handler (wrap-params fetch-page))

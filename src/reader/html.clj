@@ -34,20 +34,22 @@
   (if (and (map? node)
            (= (:tag node) :head))
     (assoc node :content
-           (conj (:content node) {:type    :element
-                                  :attrs   nil
-                                  :tag     :style
-                                  :content ["body {background-color: #fff;
-                                                        color: #000;
-                                                        font-size: 24;
-                                                        font-family: Arial;}"]}))
+           (conj (:content node)
+                 {:type    :element
+                  :attrs   nil
+                  :tag     :style
+                  :content [(str "body {background-color: #fff;"
+                                 "color: #000;"
+                                 "text-align: center;"
+                                 "font-size: 24;"
+                                 "font-family: Arial;}")]}))
     node))
 
 (defn change-hickory
-  ([hickory]
-   (change-hickory hickory [change-font remove-node-css remove-node-images]))
-  ([hickory & [fns]]
-   (w/postwalk (reduce comp fns) hickory)))
+  [hickory fns]
+  (if fns
+    (w/postwalk (reduce comp fns) hickory)
+    (change-hickory hickory [change-font remove-node-css remove-node-images])))
 
 (defn new-html
   [html & fns]
