@@ -12,7 +12,7 @@
 
 (defn stop-app!
   []
-  (.stop @server)
+  (when @server (.stop @server))
   (reset! server nil)
   (println "Server stopped."))
 
