@@ -25,7 +25,8 @@
   (if (and (map? node)
            (or (contains? node :style)
                (= (:tag node) :style)
-               (= (:tag node) :link)))
+               (and (= (:tag node) :link)
+                    (= (get-in node [:attrs :rel]) "stylesheet"))))
     ""
     node))
 
@@ -33,16 +34,14 @@
   [node]
   (if (and (map? node)
            (= (:tag node) :head))
-    (assoc node :content
-           (conj (:content node)
-                 {:type    :element
-                  :attrs   nil
-                  :tag     :style
-                  :content [(str "body {background-color: #fff;"
-                                 "color: #000;"
-                                 "text-align: center;"
-                                 "font-size: 24;"
-                                 "font-family: Arial;}")]}))
+    (update node :content conj {:type    :element
+                                :attrs   nil
+                                :tag     :style
+                                :content [(str "body {background-color: #fff;"
+                                               "color: #000;"
+                                               "text-align: center;"
+                                               "font-size: 24;"
+                                               "font-family: Arial;}")]})
     node))
 
 (defn- change-hickory
