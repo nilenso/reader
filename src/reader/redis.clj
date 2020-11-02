@@ -1,7 +1,7 @@
 (ns reader.redis
   (:require [taoensso.carmine :as car]))
 
-(def server-conn {:pool {} :spec {:host "127.0.0.1" :port 6379}})
+(def server-conn {:pool {} :spec {}})
 
 (defmacro wcar*
   [& body]
@@ -9,7 +9,8 @@
 
 (defn set-html
   [url html]
-  (wcar* (car/set url html)))
+  (wcar* (car/set url html)
+         (car/expire url 300)))
 
 (defn get-html
   [url]
