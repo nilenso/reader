@@ -1,7 +1,8 @@
 (ns reader.redis
-  (:require [taoensso.carmine :as car]))
+  (:require [taoensso.carmine :as car]
+            [reader.config :as c]))
 
-(def server-conn {:pool {} :spec {}})
+(def server-conn {:pool {} :spec {:host (c/config :redis-host)}})
 
 (defmacro wcar*
   [& body]
