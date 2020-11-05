@@ -1,18 +1,25 @@
 # reader
 
-Display webpages sans images
+Display webpages in reader mode
 
 ## usage
 
 ### setup
 
-Install [leiningen](https://leiningen.org/#install) and run server from command line:
+Install [Redis](https://redis.io/download) and run its server.
+
+Then install [leiningen](https://leiningen.org/#install) and run reader's ring 
+jetty server from command line:
+
 ```
 $ lein deps
 $ lein run
 ```
 
-Start, stop or restart server from REPL:
+Then navigate to http://localhost:8080 and pass webpage urls as url query
+parameters.
+
+Start, stop or restart the reader server from REPL:
 ```
 (server/start-app!)
 
