@@ -21,3 +21,7 @@
 (defn delete-html
   [url]
   (wcar* (car/del url)))
+
+(defn delete-all
+  []
+  (wcar* (car/flushall)))
