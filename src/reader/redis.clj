@@ -17,3 +17,7 @@
   [url]
   (when (= (wcar* (car/exists url)) 1)
     (wcar* (car/get url))))
+
+(defn delete-html
+  [url]
+  (wcar* (car/del url)))
