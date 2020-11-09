@@ -7,10 +7,10 @@
 (defn fetch-page
   [{:keys [query-params]}]
   (if-let [url (get query-params "url")]
-    (if-let [response (r/get-html url)]
+    (if-let [response (r/get-from-cache url)]
       (response/response response)
-      (let [response (html/new-html (html/fetch-html url))]
-        (r/set-html url response)
+      (let [response (html/change-html (html/fetch-html url))]
+        (r/set-to-cache url response)
         (response/response response)))
     (response/bad-request "URL query missing")))
 
