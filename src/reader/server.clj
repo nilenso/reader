@@ -7,8 +7,9 @@
 
 (defn start-app!
   []
-  (reset! server (r/run-jetty h/handler {:port (c/port), :join? false}))
-  (println "Server started on port" (c/port)))
+  (reset! server (r/run-jetty h/handler {:port (c/config :ring-server-port)
+                                         :join? false}))
+  (println "Server started on port" (c/config :ring-server-port)))
 
 (defn stop-app!
   []

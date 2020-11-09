@@ -50,7 +50,7 @@
     (w/postwalk (reduce comp node-fns) hickory)
     (change-hickory hickory [change-font remove-node-css remove-node-images])))
 
-(defn new-html
+(defn change-html
   [html & node-fns]
   (-> html
       html-to-hickory

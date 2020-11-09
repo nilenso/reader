@@ -1,7 +1,8 @@
 (ns reader.config
   (:require [clojure.edn :as edn]))
 
-(defn port
-  []
+(defn config
+  [keyword]
   (let [config (edn/read-string (slurp "resources/config.edn"))]
-    (:port config)))
+    (keyword config)))
+
