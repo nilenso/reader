@@ -1,11 +1,13 @@
 (ns reader.core
   (:gen-class)
-  (:require [reader.server :as server]
-            [reader.config :as config]))
+  (:require [reader.server :as s]
+            [reader.config :as c]
+            [reader.redis :as r]))
 
 (defn -main
   [& args]
   (if-let [file-name (first args)]
-    (config/load-config-file file-name)
-    (config/load-config-file))
-  (server/start-app!))
+    (c/load-config file-name)
+    (c/load-config))
+  (r/set-conn-opts)
+  (s/start-app!))

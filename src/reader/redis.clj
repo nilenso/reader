@@ -6,7 +6,7 @@
 
 (defn set-conn-opts
   []
-  (reset! server-conn {:pool {}, :spec {:host (c/config :redis-host)}}))
+  (reset! server-conn {:pool {}, :spec {:host (:redis-host @c/config)}}))
 
 (defmacro wcar*
   [& body]
@@ -14,22 +14,18 @@
 
 (defn set-to-cache
   [key value]
-  (set-conn-opts)
   (wcar* (car/set key value)
          (car/expire key 300)))
 
 (defn get-from-cache
   [key]
-  (set-conn-opts)
   (when (= (wcar* (car/exists key)) 1)
     (wcar* (car/get key))))
 
 (defn delete-key
   [key]
-  (set-conn-opts)
   (wcar* (car/del key)))
 
 (defn delete-all-keys
   []
-  (set-conn-opts)
   (wcar* (car/flushall)))
