@@ -7,7 +7,7 @@
 (defn -main
   [& args]
   (if-let [file-name (first args)]
-    (c/load-config file-name)
-    (c/load-config))
-  (r/set-conn-opts)
+    (c/load-config! file-name)
+    (c/load-config!))
+  (r/set-conn-opts!)
   (s/start-app!))

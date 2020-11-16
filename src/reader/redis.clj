@@ -4,7 +4,7 @@
 
 (defonce server-conn (atom nil))
 
-(defn set-conn-opts
+(defn set-conn-opts!
   []
   (reset! server-conn {:pool {}, :spec {:host (:redis-host @c/config)}}))
 
