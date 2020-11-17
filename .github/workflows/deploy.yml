@@ -16,6 +16,7 @@ jobs:
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
           echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_rsa_gh_reader
+          chmod 600 ~/.ssh/id_rsa_gh_reader
           ssh-keyscan "$DEPLOY_HOST" >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
       - name: actually ssh in
