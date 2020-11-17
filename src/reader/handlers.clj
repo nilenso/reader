@@ -10,7 +10,7 @@
     (if-let [response (r/get-from-cache url)]
       (response/response response)
       (let [response (html/change-html (html/fetch-html url))]
-        (r/set-to-cache url response)
+        (r/set-to-cache! url response)
         (response/response response)))
     (response/bad-request "URL query missing")))
 

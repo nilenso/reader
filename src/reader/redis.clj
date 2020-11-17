@@ -12,7 +12,7 @@
   [& body]
   `(car/wcar server-conn ~@body))
 
-(defn set-to-cache
+(defn set-to-cache!
   [key value]
   (wcar* (car/set key value)
          (car/expire key 300)))
@@ -22,10 +22,10 @@
   (when (= (wcar* (car/exists key)) 1)
     (wcar* (car/get key))))
 
-(defn delete-key
+(defn delete-key!
   [key]
   (wcar* (car/del key)))
 
-(defn delete-all-keys
+(defn delete-all-keys!
   []
   (wcar* (car/flushall)))
