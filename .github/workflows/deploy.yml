@@ -13,11 +13,10 @@ jobs:
     steps:
       - name: ssh setup
         run: |
-          eval $(ssh-agent -s)
-          echo "$SSH_PRIVATE_KEY" | ssh-add -
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
+          echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_rsa_gh_reader
           ssh-keyscan "$DEPLOY_HOST" >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
       - name: actually ssh in
-        run: ssh -v "$DEPLOY_USER@$DEPLOY_HOST" "echo hi"
+        run: ssh -v -i ~/.ssh/id_rsa_gh_reader "$DEPLOY_USER@$DEPLOY_HOST" "echo hi"
