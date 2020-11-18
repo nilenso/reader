@@ -1,17 +1,20 @@
-name: deploy app on server
+name: Deploy app on server
 
 on: push
 
 jobs:
-  ssh-into-server:
-    name: ssh into server
+  deploy-app:
+    name: Deploy app
     runs-on: ubuntu-latest
     env:
       SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
       DEPLOY_HOST: ${{secrets.DEPLOY_HOST}}
       DEPLOY_USER: ${{secrets.DEPLOY_USER}}
     steps:
-      - name: ssh setup
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Ssh setup
         run: |
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
@@ -19,5 +22,12 @@ jobs:
           chmod 600 ~/.ssh/id_rsa_gh_reader
           ssh-keyscan "$DEPLOY_HOST" >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
-      - name: actually ssh in
-        run: ssh -v -i ~/.ssh/id_rsa_gh_reader "$DEPLOY_USER@$DEPLOY_HOST" "echo hi"
+
+      - name: Build uberjar
+        runs: lein uberjar
+
+      - name: Transfer uberjar and deploy.sh to server
+        runs: scp -C target/reader-0.1.0-SNAPSHOT-standalone.jar deployment/deploy.sh "$DEPLOY_USER@$DEPLOY_HOST:/opt"
+
+      - name: Run deploy script on server
+        run: ssh -i ~/.ssh/id_rsa_gh_reader "$DEPLOY_USER@$DEPLOY_HOST" "cd /;./opt/deploy.sh"

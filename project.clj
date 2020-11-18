@@ -9,5 +9,6 @@
                  [hickory "0.7.1"]
                  [com.taoensso/carmine "3.0.1"]]
   :plugins [[lein-cljfmt "0.7.0"]]
+  :profiles {:uberjar {:aot :all}}
   :main reader.core
   :repl-options {:init-ns reader.core})
