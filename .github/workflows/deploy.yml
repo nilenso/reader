@@ -32,4 +32,4 @@ jobs:
           scp -i ~/.ssh/id_rsa_gh_reader resources/config.edn "$DEPLOY_USER@$DEPLOY_HOST":/opt/resources
 
       - name: Run deploy script on server
-        run: ssh -i ~/.ssh/id_rsa_gh_reader "$DEPLOY_USER@$DEPLOY_HOST" "cd /;./opt/deploy.sh"
+        run: ssh -i ~/.ssh/id_rsa_gh_reader "$DEPLOY_USER@$DEPLOY_HOST" "cd /opt;./deploy.sh"
