@@ -24,10 +24,10 @@ jobs:
           chmod 644 ~/.ssh/known_hosts
 
       - name: Build uberjar
-        runs: lein uberjar
+        run: lein uberjar
 
       - name: Transfer uberjar and deploy.sh to server
-        runs: scp -C target/reader-0.1.0-SNAPSHOT-standalone.jar deployment/deploy.sh "$DEPLOY_USER@$DEPLOY_HOST:/opt"
+        run: scp -C target/reader-0.1.0-SNAPSHOT-standalone.jar deployment/deploy.sh "$DEPLOY_USER@$DEPLOY_HOST:/opt"
 
       - name: Run deploy script on server
         run: ssh -i ~/.ssh/id_rsa_gh_reader "$DEPLOY_USER@$DEPLOY_HOST" "cd /;./opt/deploy.sh"
