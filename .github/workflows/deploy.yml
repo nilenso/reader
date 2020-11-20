@@ -10,6 +10,7 @@ jobs:
       SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
       DEPLOY_HOST: ${{secrets.DEPLOY_HOST}}
       DEPLOY_USER: ${{secrets.DEPLOY_USER}}
+      REDIS_HOST: ${{secrets.REDIS_HOST}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -26,7 +27,7 @@ jobs:
       - name: Build uberjar
         run: lein uberjar
 
-      - name: Add redis host to config file
+      - name: Overwrite redis host in config file
         run: sed -i '2s/.*/ :redis-host       "'"$REDIS_HOST"'"}/' resources/config.edn
 
       - name: Transfer uberjar, config file and deploy.sh to server
