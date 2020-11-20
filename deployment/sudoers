@@ -1,0 +1,2 @@
+# Under sudo group privilege specification line in the sudoers file, add:
+%akshatha ALL=NOPASSWD: /usr/bin/systemctl restart reader.service
