@@ -26,6 +26,9 @@ jobs:
       - name: Build uberjar
         run: lein uberjar
 
+      - name: Add redis host to config file
+        run: sed -i '2s/.*/ :redis-host       "'"$REDIS_HOST"'"}/' resources/config.edn
+
       - name: Transfer uberjar, config file and deploy.sh to server
         run: |
           scp -i ~/.ssh/id_rsa_gh_reader -C target/reader-0.1.0-SNAPSHOT-standalone.jar deployment/deploy.sh "$DEPLOY_USER@$DEPLOY_HOST":/opt
