@@ -6,6 +6,8 @@
 
 (defn -main
   [& args]
+  (.addShutdownHook (Runtime/getRuntime) (Thread. #((println "SHUTTING DOWN SERVER")
+                                                    (s/stop-app!))))
   (if-let [file-name (first args)]
     (c/load-config! file-name)
     (c/load-config!))
