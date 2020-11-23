@@ -19,7 +19,7 @@
 
   (testing "If html already exists in cache, fetch it and return status 200"
     (tu/with-fixture f/clear-cache
-      (r/set-to-cache "foo.bar" "<html></html>")
+      (r/set-to-cache! "foo.bar" "<html></html>")
       (let [request {:query-params {"url" "foo.bar"}}
             response (h/fetch-page request)]
         (is (= "<html></html>" (:body response)))

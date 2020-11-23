@@ -3,5 +3,5 @@
 
 (defn clear-cache
   [f]
-  (r/delete-all-keys)
+  (r/delete-all-keys!)
   (f))

@@ -1,8 +1,8 @@
 (ns reader.config
   (:require [clojure.edn :as edn]))
 
-(defn config
-  [keyword]
-  (let [config (edn/read-string (slurp "resources/config.edn"))]
-    (keyword config)))
+(defonce config (atom nil))
 
+(defn load-config!
+  ([] (load-config! "resources/config.edn"))
+  ([file-name] (reset! config (edn/read-string (slurp file-name)))))
