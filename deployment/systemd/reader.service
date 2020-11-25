@@ -1,0 +1,12 @@
+[Unit]
+Description=Reader app
+After=network.target
+
+[Service]
+User=reader
+ExecStart=java -jar /opt/reader-0.1.0-SNAPSHOT-standalone.jar /opt/resources/config.edn
+Restart=always
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

@@ -10,7 +10,7 @@
 
 (defmacro wcar*
   [& body]
-  `(car/wcar server-conn ~@body))
+  `(car/wcar @server-conn ~@body))
 
 (defn set-to-cache!
   [key value]
