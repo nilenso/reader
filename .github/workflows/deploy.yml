@@ -1,6 +1,9 @@
 name: Deploy app on server
 
-on: push
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   deploy-app:
